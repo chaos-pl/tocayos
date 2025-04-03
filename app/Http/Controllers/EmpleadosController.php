@@ -33,6 +33,14 @@ class EmpleadosController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'Nombre' => 'required|string|max:100',
+            'ApellidoPaterno' => 'required|string|max:100',
+            'ApellidoMaterno' => 'required|string|max:100',
+            'Correo' => 'required|email|unique:empleados,Correo',
+            'Foto' => 'required|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+
         //$datosEmpleados = request()->all();
         $datosEmpleado=request()->except('_token');
         if($request->hasFile('Foto')){
@@ -49,6 +57,7 @@ class EmpleadosController extends Controller
     public function show(Empleados $empleados)
     {
         //
+        return redirect()->route($empleados.$this->edit($empleados)->id);
     }
 
     /**
@@ -67,6 +76,14 @@ class EmpleadosController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $request->validate([
+            'Nombre' => 'required|string|max:100',
+            'ApellidoPaterno' => 'required|string|max:100',
+            'ApellidoMaterno' => 'required|string|max:100',
+            'Correo' => "required|email|unique:empleados,Correo,$id",
+            'Foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+
         $datosEmpleado=request()->except(['_token','_method']);
 
         if($request->hasFile('Foto')){

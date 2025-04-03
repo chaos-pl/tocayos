@@ -111,41 +111,22 @@
     <section id="productos" class="container my-5">
         <h2 class="text-center text-warning fw-bold">Catálogo de Productos</h2>
         <div class="row">
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="{{ asset("img/productos_accesorios.jpg")}}" class="card-img-top" alt="Accesorios">
-                    <div class="card-body">
-                        <h5 class="card-title">Accesorios</h5>
-                        <p class="card-text">Personaliza tu auto con estilo.</p>
-                        <p class="text-warning"><strong>Desde $500 MXN</strong></p>
-                        <a href="#" class="btn btn-custom">Ver más</a>
+            @foreach ($productos as $producto)
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0 shadow-sm">
+                        <img src="{{ asset('storage/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $producto->nombre }}</h5>
+                            <p class="card-text">{{ $producto->descripcion }}</p>
+                            <p class="text-warning"><strong>${{ number_format($producto->precio, 2) }} MXN</strong></p>
+                            <a href="#" class="btn btn-custom">Ver más</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="{{ asset("img/productos_audio.png")}}" class="card-img-top" alt="Audio">
-                    <div class="card-body">
-                        <h5 class="card-title">Sistemas de Audio</h5>
-                        <p class="card-text">Mejora la experiencia sonora de tu vehículo.</p>
-                        <p class="text-warning"><strong>Desde $1,200 MXN</strong></p>
-                        <a href="#" class="btn btn-custom">Ver más</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="{{asset("img/luces.png")}}" class="card-img-top" alt="Luces LED">
-                    <div class="card-body">
-                        <h5 class="card-title">Luces LED</h5>
-                        <p class="card-text">Ilumina tu camino con estilo y seguridad.</p>
-                        <p class="text-warning"><strong>Desde $800 MXN</strong></p>
-                        <a href="#" class="btn btn-custom">Ver más</a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
+
 
     <section id="contacto" class="container my-5">
         <h2 class="text-center text-warning fw-bold">Contacto</h2>

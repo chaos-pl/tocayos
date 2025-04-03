@@ -1,3 +1,4 @@
+{{-- resources/views/layouts/dashboard.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -74,7 +75,16 @@
             padding: 10px;
             background-color: #FFC107;
             border-radius: 5px;
-            text-align: center;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: black;
+        }
+
+        .stat-item i {
+            font-size: 1.5rem;
+            min-width: 30px;
         }
 
         .sidebar .logout {
@@ -83,6 +93,7 @@
     </style>
 
     <div class="dashboard-container">
+        {{-- Sidebar Izquierda --}}
         <div class="sidebar">
             <img src="{{ asset('img/logo_autostyle.jpeg') }}" alt="AutoStyle Logo"
                  class="rounded-circle border border-white mb-4" width="80" height="80">
@@ -104,44 +115,40 @@
             </a>
         </div>
 
+        {{-- Contenido dinámico --}}
         <div class="content">
-            <h2 class="fw-bold">Bienvenido al Dashboard</h2>
-            <p>Contenido de la vista actual...</p>
+            @yield('dashboard-content')
         </div>
 
+        {{-- Panel derecho de estadísticas --}}
         <div class="stats-panel">
             <h4>Estadísticas</h4>
 
-            <div class="stat-item d-flex align-items-center gap-3">
-                <i class="fa-solid fa-sack-dollar fa-2x text-dark"></i>
+            <div class="stat-item">
+                <i class="fa-solid fa-sack-dollar"></i>
                 <div>
-                    <h5 class="mb-0">Ventas Totales</h5>
+                    <h6 class="mb-1">Ventas Totales</h6>
                     <p class="mb-0">$75,000</p>
                 </div>
             </div>
 
-            <div class="stat-item d-flex align-items-center gap-3">
-                <i class="fa-solid fa-warehouse fa-2x text-dark"></i>
+            <div class="stat-item">
+                <i class="fa-solid fa-warehouse"></i>
                 <div>
-                    <h5 class="mb-0">Almacén</h5>
+                    <h6 class="mb-1">Porcentaje de Almacén</h6>
                     <p class="mb-0">65%</p>
                 </div>
             </div>
 
-            <div class="stat-item d-flex align-items-center gap-3">
-                <i class="fa-solid fa-user-check fa-2x text-dark"></i>
+            <div class="stat-item">
+                <i class="fa-solid fa-user-check"></i>
                 <div>
-                    <h5 class="mb-0">Clientes Activos</h5>
+                    <h6 class="mb-1">Clientes Activos</h6>
                     <p class="mb-0">1,230</p>
                 </div>
             </div>
         </div>
-
     </div>
-
-    <footer class="text-center text-white bg-dark py-3 mt-5">
-        <p>&copy; 2025 AutoStyle Accesorios. Todos los derechos reservados.</p>
-    </footer>
 @endsection
 
 

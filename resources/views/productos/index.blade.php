@@ -1,13 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
-@section('content')
-    <div class="container">
-        <h2>Lista de productos</h2>
+@section('dashboard-content')
+    <h2 class="fw-bold mb-4">Lista de productos</h2>
 
-        <a href="{{ route('productos.create') }}" class="btn btn-success mb-3">+ Nuevo producto</a>
+    <a href="{{ route('productos.create') }}" class="btn btn-success mb-3">
+        <i class="fa-solid fa-plus me-1"></i> Nuevo producto
+    </a>
 
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table align-middle table-hover">
+            <thead class="table-dark text-center">
             <tr>
                 <th>#</th>
                 <th>Imagen</th>
@@ -17,32 +19,38 @@
                 <th>Acciones</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
             @foreach ($productos as $producto)
                 <tr>
-                    <td>{{ $producto->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>
-                        <img src="{{ asset('storage/' . $producto->imagen) }}" width="100" alt="Imagen de {{ $producto->nombre }}">
+                        <img src="{{ asset('storage/' . $producto->imagen) }}"
+                             alt="Imagen del producto"
+                             class="rounded shadow-sm"
+                             style="width: 80px; height: 80px; object-fit: cover;">
                     </td>
-                    <td>{{ $producto->nombre }}</td>
+                    <td class="fw-bold">{{ $producto->nombre }}</td>
                     <td>{{ $producto->descripcion }}</td>
-                    <td>${{ number_format($producto->precio, 2) }}</td>
+                    <td class="text-success fw-bold">${{ number_format($producto->precio, 2) }}</td>
                     <td>
-                        <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm me-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
                         <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('¿Deseas borrar este producto?')">Eliminar</button>
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar producto?')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+    </div>
 
-        <!-- Paginación -->
-        <div class="d-flex justify-content-center">
-            {{ $productos->links() }}
-        </div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $productos->links() }}
     </div>
 @endsection

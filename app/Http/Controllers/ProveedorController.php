@@ -29,6 +29,13 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'telefono' => 'required|string|max:20',
+            'correo' => 'required|email|unique:proveedores,correo',
+            'direccion' => 'required|string|max:255'
+        ]);
+
         $datosProveedor = request()->except('_token');
         Proveedor::insert($datosProveedor);
 
@@ -58,6 +65,13 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'telefono' => 'required|string|max:20',
+            'correo' => "required|email|unique:proveedors,correo,$id",
+            'direccion' => 'required|string|max:255'
+        ]);
+
         $datosProveedor = request()->except(['_token', '_method']);
         Proveedor::where('id', '=', $id)->update($datosProveedor);
 

@@ -33,6 +33,13 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required|string|min:3|max:100',
+            'descripcion' => 'required|string|min:5',
+            'precio' => 'required|numeric|min:0',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $datosProducto = request()->except('_token');
 
         if ($request->hasFile('imagen')) {
@@ -47,9 +54,10 @@ class ProductosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Productos $productos)
+    public function show(Productos $producto)
     {
         //
+        return redirect()->route('productos.edit', $producto->id);
     }
 
     /**
@@ -68,6 +76,13 @@ class ProductosController extends Controller
     public function update(Request $request,$id)
     {
         //
+        $request->validate([
+            'nombre' => 'required|string|min:3|max:100',
+            'descripcion' => 'required|string|min:5',
+            'precio' => 'required|numeric|min:0',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $datosProducto = request()->except(['_token', '_method']);
 
         if ($request->hasFile('imagen')) {

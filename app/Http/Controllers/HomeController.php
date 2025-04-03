@@ -23,6 +23,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('402.dashboard_autostyle');
+        $totalProductos = \App\Models\Productos::count();
+        $totalEmpleados = \App\Models\Empleados::count();
+        $totalProveedores = \App\Models\Proveedor::count();
+
+        return view('dashboard_home', compact(
+            'totalProductos',
+            'totalEmpleados',
+            'totalProveedores'
+        ));
     }
+
 }

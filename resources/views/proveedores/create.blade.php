@@ -1,15 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
-@section('content')
+@section('dashboard-content')
     <div class="container">
         <h2>Crear proveedor</h2>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
 
         <form action="{{ route('proveedores.store') }}" method="post">
             @csrf
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" required>
+                <input type="text" name="nombre" id="nombre" class="form-control">
             </div>
 
             <div class="mb-3">
@@ -19,12 +29,12 @@
 
             <div class="mb-3">
                 <label for="correo" class="form-label">Correo electrónico</label>
-                <input type="email" name="correo" id="correo" class="form-control" required>
+                <input type="email" name="correo" id="correo" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" name="direccion" id="direccion" class="form-control" required>
+                <input type="text" name="direccion" id="direccion" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">Guardar proveedor</button>
