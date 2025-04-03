@@ -6,6 +6,7 @@ Route::get('/', function () {
     return view('402.landing_page_ferreteria');
 });
 Route::resource('empleados', App\Http\Controllers\EmpleadosController::class);
+Route::resource('productos', App\Http\Controllers\ProductosController::class);
 
 
 

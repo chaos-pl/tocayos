@@ -110,7 +110,6 @@
 
     <section id="productos" class="container my-5">
         <h2 class="text-center text-warning fw-bold">Catálogo de Productos</h2>
-        <input type="text" class="form-control mb-4" placeholder="Buscar productos...">
         <div class="row">
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm">

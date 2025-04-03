@@ -3,7 +3,13 @@
 
 @section('content')
     <div class="container">
-        <h2>Sección para crear empleados</h2>
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8 text-center">
+                <h2 class="titulo-seccion">Sección para crear empleados</h2>
+            </div>
+        </div>
+
 
         <form action="{{ route('empleados.store') }}" method="post" enctype="multipart/form-data">
             @csrf
