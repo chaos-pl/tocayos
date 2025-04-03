@@ -83,9 +83,17 @@ class EmpleadosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Empleados $empleados)
+    public function destroy($id)
     {
         //
+        $empleado=Empleados::findOrFail($id);
+
+        if (Storage::delete('public/'.$empleado->Foto))
+        {
+            Empleados::destroy($id);
+        }
+
+        return redirect('empleados');
 
     }
 }
