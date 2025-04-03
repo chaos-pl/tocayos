@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('402.landing_page_ferreteria');
 });
 Route::resource('empleados', App\Http\Controllers\EmpleadosController::class);
 
@@ -40,6 +40,8 @@ Route::get("dash_autostyle", function()
 {
     return view("402.dashboard_autostyle");
 });
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
