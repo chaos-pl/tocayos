@@ -35,7 +35,7 @@
         display: block;
         margin: auto;
     }
-    
+
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
