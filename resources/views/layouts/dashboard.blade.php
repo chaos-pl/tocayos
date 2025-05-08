@@ -40,11 +40,24 @@
             padding: 15px;
             font-weight: bold;
             border-radius: 5px;
+            transition: background-color .2s;
         }
 
-        .sidebar a.active, .sidebar a:hover {
+        .sidebar a.active,
+        .sidebar a:hover {
             background-color: #333;
             border-left: 5px solid #FFC107;
+        }
+
+        /* Submenú de categorías */
+        .submenu-categorias {
+            margin-top: .5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .submenu-categorias a {
+            padding-left: 2.5rem;
+            font-size: .95rem;
         }
 
         .content {
@@ -98,19 +111,41 @@
             <img src="{{ asset('img/logo_autostyle.jpeg') }}" alt="AutoStyle Logo"
                  class="rounded-circle border border-white mb-4" width="80" height="80">
 
-            <a href="/dashboard" class="{{ request()->is('dashboard') ? 'active' : '' }}">
+            <a href="{{ route('dashboard') }}"
+               class="{{ request()->is('dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-home me-2"></i>Inicio
             </a>
-            <a href="/productos" class="{{ request()->is('productos') ? 'active' : '' }}">
-                <i class="fa-solid fa-box me-2"></i>Productos
-            </a>
-            <a href="/empleados" class="{{ request()->is('empleados') ? 'active' : '' }}">
+
+
+            <a href="{{ route('empleados.index') }}"
+               class="{{ request()->is('empleados*') ? 'active' : '' }}">
                 <i class="fa-solid fa-users me-2"></i>Empleados
             </a>
-            <a href="/proveedores" class="{{ request()->is('proveedores') ? 'active' : '' }}">
+
+            <a href="{{ route('proveedores.index') }}"
+               class="{{ request()->is('proveedores*') ? 'active' : '' }}">
                 <i class="fa-solid fa-truck me-2"></i>Proveedores
             </a>
-            <a href="/landing_page" class="logout {{ request()->is('landing_page') ? 'active' : '' }}">
+
+            {{-- Categorías --}}
+            <a href="{{ route('dashboard.categorias') }}"
+               class="{{ request()->is('dashboard/categorias*') ? 'active' : '' }}">
+                <i class="fa-solid fa-layer-group me-2"></i>Categorías
+            </a>
+
+            {{-- Submenú dinámico de categorías --}}
+            @if(request()->is('dashboard/categorias*'))
+                <div class="submenu-categorias">
+                    @foreach(\App\Models\Categorias::orderBy('nombre')->get() as $cat)
+                        <a href="{{ route('dashboard.categorias.show', $cat) }}"
+                           class="{{ isset($categoria) && $categoria->id === $cat->id ? 'active' : '' }}">
+                            <i class="fa-solid fa-tag me-1"></i> {{ $cat->nombre }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+
+            <a href="{{ url('/') }}" class="logout">
                 <i class="fa-solid fa-arrow-left me-2"></i>Salir
             </a>
         </div>

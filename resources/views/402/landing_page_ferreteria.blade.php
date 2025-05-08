@@ -110,23 +110,29 @@
 
     <section id="productos" class="container my-5">
         <h2 class="text-center text-warning fw-bold">Catálogo de Productos</h2>
-        <div class="row">
-            @foreach ($productos as $producto)
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <img src="{{ asset('storage/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $producto->nombre }}</h5>
-                            <p class="card-text">{{ $producto->descripcion }}</p>
-                            <p class="text-warning"><strong>${{ number_format($producto->precio, 2) }} MXN</strong></p>
-                            <a href="#" class="btn btn-custom">Ver más</a>
+
+        @foreach ($productosPorCategoria as $categoria => $items)
+            <h3 class="mt-5 text-uppercase text-dark border-start border-4 border-warning ps-3">
+                {{ $categoria }}
+            </h3>
+            <div class="row mt-3">
+                @foreach ($items as $producto)
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="{{ asset('storage/' . $producto->imagen) }}"
+                                 class="card-img-top" alt="{{ $producto->nombre }}">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ $producto->nombre }}</h5>
+                                <p class="card-text flex-grow-1">{{ Str::limit($producto->descripcion, 80) }}</p>
+                                <p class="text-warning"><strong>${{ number_format($producto->precio, 2) }} MXN</strong></p>
+                                <a href="#" class="btn btn-custom mt-auto">Ver más</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @endforeach
     </section>
-
 
     <section id="contacto" class="container my-5">
         <h2 class="text-center text-warning fw-bold">Contacto</h2>

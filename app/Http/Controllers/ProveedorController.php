@@ -72,7 +72,8 @@ class ProveedorController extends Controller
             'direccion' => 'required|string|max:255'
         ]);
 
-        $datosProveedor = request()->except(['_token', '_method']);
+        $datosProveedor = request()->except(['_token
+        ', '_method']);
         Proveedor::where('id', '=', $id)->update($datosProveedor);
 
         $proveedor = Proveedor::findOrFail($id);

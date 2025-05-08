@@ -8,8 +8,27 @@ Route::resource('productos', App\Http\Controllers\ProductosController::class);
 
 Route::resource('proveedores', App\Http\Controllers\ProveedorController::class);
 
+Route::view('/dashboard/categorias', 'categorias.categorias');
 
 
+use App\Http\Controllers\DashboardCategoriaController;
+
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    // Dashboard principal
+    Route::view('/', '402.dashboard_autostyle')->name('dashboard');
+
+    // Índice de categorías
+    Route::get('categorias', [DashboardCategoriaController::class, 'index'])
+        ->name('dashboard.categorias');
+
+    // Mostrar productos de una categoría
+    Route::get('categorias/{categoria}', [DashboardCategoriaController::class, 'show'])
+        ->name('dashboard.categorias.show');
+});
+
+
+
+Route::get('/landing_page_ferreteria', [LandingController::class, 'landing']);
 
 
 Route::get("Ejemplo_1", function()

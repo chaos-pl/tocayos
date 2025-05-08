@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Productos;
 use Illuminate\Http\Request;
+use App\Models\Categorias;
 use Illuminate\Support\Facades\Storage;
 
 class ProductosController extends Controller
@@ -22,10 +23,16 @@ class ProductosController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-        return view('productos.create');
+        // Trae todas las categorías ordenadas
+        $categorias = Categorias::orderBy('nombre')->get();
+
+        // Retorna la vista y le pasa $categorias
+        return view('productos.create', [
+            'categorias'   => $categorias,
+            'categoria_id' => $request->query('categoria_id'),
+        ]);
     }
 
     /**
@@ -67,7 +74,8 @@ class ProductosController extends Controller
     {
         //
         $producto = Productos::findOrFail($id);
-        return view('productos.edit', compact('producto'));
+        $categorias = Categorias::orderBy('nombre')->get();
+        return view('productos.edit', compact('producto','categorias'));
     }
 
     /**
