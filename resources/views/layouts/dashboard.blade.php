@@ -116,6 +116,10 @@
                 <i class="fa-solid fa-home me-2"></i>Inicio
             </a>
 
+            <a href="{{ route('productos.index') }}"
+               class="{{ request()->is('productos*') ? 'active' : '' }}">
+                <i class="fa-solid fa-box me-2"></i>Productos
+            </a>
 
             <a href="{{ route('empleados.index') }}"
                class="{{ request()->is('empleados*') ? 'active' : '' }}">

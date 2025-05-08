@@ -16,7 +16,7 @@ class ProductosController extends Controller
     {
         //
         $datos['productos'] = Productos::paginate(5);
-        return view('productos.index', $datos);
+        return view('categorias', $datos);
 
     }
 
@@ -41,21 +41,24 @@ class ProductosController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|min:3|max:100',
-            'descripcion' => 'required|string|min:5',
-            'precio' => 'required|numeric|min:0',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'nombre'        => 'required|string|min:3|max:100',
+            'descripcion'   => 'required|string|min:5',
+            'precio'        => 'required|numeric|min:0',
+            'imagen'        => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'categoria_id'  => 'required|exists:categorias,id',
         ]);
 
-        $datosProducto = request()->except('_token');
+        $datos = $request->except('_token');
 
         if ($request->hasFile('imagen')) {
-            $datosProducto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            $datos['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
 
-        Productos::insert($datosProducto);
+        Productos::create($datos);
 
-        return redirect()->route('productos.index')->with('success', 'Producto agregado correctamente.');
+        return redirect()
+            ->route('dashboard.categorias.show', $datos['categoria_id'])
+            ->with('success', 'Producto agregado correctamente.');
     }
 
     /**
@@ -83,26 +86,29 @@ class ProductosController extends Controller
      */
     public function update(Request $request,$id)
     {
-        //
         $request->validate([
-            'nombre' => 'required|string|min:3|max:100',
-            'descripcion' => 'required|string|min:5',
-            'precio' => 'required|numeric|min:0',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'nombre'        => 'required|string|min:3|max:100',
+            'descripcion'   => 'required|string|min:5',
+            'precio'        => 'required|numeric|min:0',
+            'imagen'        => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'categoria_id'  => 'required|exists:categorias,id',
         ]);
 
-        $datosProducto = request()->except(['_token', '_method']);
+        $datos = $request->except(['_token','_method']);
 
         if ($request->hasFile('imagen')) {
             $producto = Productos::findOrFail($id);
-            Storage::delete('public/' . $producto->imagen);
-            $datosProducto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            Storage::delete('public/'.$producto->imagen);
+            $datos['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
 
-        Productos::where('id', '=', $id)->update($datosProducto);
-
+        Productos::where('id', $id)->update($datos);
+        // Recupera el producto actualizado para obtener su categoria_id
         $producto = Productos::findOrFail($id);
-        return view('productos.edit', compact('producto'));
+
+        return redirect()
+            ->route('dashboard.categorias.show', $producto->categoria_id)
+            ->with('success', 'Producto actualizado correctamente.');
     }
 
     /**
@@ -110,13 +116,17 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        //
         $producto = Productos::findOrFail($id);
+        $categoriaId = $producto->categoria_id;
 
-        if (Storage::delete('public/' . $producto->imagen)) {
-            Productos::destroy($id);
+        // Elimina imagen y registro
+        if (Storage::delete('public/'.$producto->imagen)) {
+            $producto->delete();
         }
 
-        return redirect('productos');
+        // Redirige al “show” de esa categoría en el dashboard
+        return redirect()
+            ->route('dashboard.categorias.show', $categoriaId)
+            ->with('success', 'Producto eliminado correctamente.');
     }
 }
